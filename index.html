@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Queue Visualization</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    section {
+      display: flex;
+      gap: 30px;
+      padding: 20px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    section > div {
+      width: 60px;
+      height: 60px;
+      background: #4caf50;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.3s;
+      position: relative;
+    }
+
+    section > div img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    .controls {
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 0 10px;
+      border: none;
+      background-color: #2196f3;
+      color: white;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: #1976d2;
+    }
+  </style>
+</head>
+<body>
+
+<section id="queue">
+
+</section>
+
+<div class="controls">
+  <button onclick="startQueue()">Start</button>
+  <button onclick="stopQueue()">Stop</button>
+</div>
+
+<script>
+  let intervalId;
+  let data = ['A', 'B', 'C', 'D', 'E', 'F'];
+  const imageUrl = "https://cdn-icons-png.flaticon.com/512/236/236831.png";
+
+  const queueContainer = document.getElementById('queue');
+
+  // Initial render
+  const renderQueue = () => {
+    queueContainer.innerHTML = '';
+    data.forEach(label => {
+      const div = document.createElement('div');
+      const img = document.createElement('img');
+      img.src = imageUrl;
+      img.alt = label;
+      div.title = label;
+      div.appendChild(img);
+      queueContainer.appendChild(div);
+    });
+  }
+
+  const rotateQueue = () => {
+    const last = data.pop();
+    data.unshift(last);
+    renderQueue();
+    console.log("Queue:", data);
+  }
+
+  const startQueue = () => {
+    if (!intervalId) {
+      intervalId = setInterval(rotateQueue, 2000);
+    }
+  }
+
+  const stopQueue = () => {
+    clearInterval(intervalId);
+    intervalId = null;
+  }
+
+  renderQueue();
+</script>
+
+</body>
+</html>
